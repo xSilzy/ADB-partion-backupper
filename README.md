@@ -15,7 +15,7 @@ A simple batch script to back up Android a/b partition from a rooted device usin
 
 **Usage**
 
-1. Place the adb-backup.bat file into the same folder as your Android Debugging Bridge installation (Where the `adb.exe` file is located at).
+1. Place the `adb-backup.bat` file into the same folder as your Android Debugging Bridge installation (Where the `adb.exe` file is located at).
 2. Run the batch file and enter a folder path for storing the backups.
 3. Wait for the script to complete; backups will be saved in a timestamped folder.
 
