@@ -16,7 +16,7 @@ for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmm"'
 set date=!dt:~0,4!.!dt:~4,2!.!dt:~6,2!
 set time=!dt:~9,2!!dt:~11,2!
 
-set backup_name="backup_!date!_!time!"
+set backup_name=backup_!date!_!time!
 
 set /P C=Enter the full directory path for the backup:
 
@@ -49,7 +49,7 @@ echo 🔍¦ Locating img directories...
 adb shell ls -la /dev/block/by-name > "%C%\%backup_name%\temp.txt"
 
 if %currentPartion% == _a (
-	for /f "skip=1 delims=" %%G IN (temp.txt) DO (
+	for /f "skip=1 delims=" %%G IN (%C%\%backup_name%\temp.txt) DO (
 		for %%i in (boot_a init_boot_a vendor_boot_a vendor_kernel_boot_a super userdata efs efs_backup) do (
 			echo "%%G" | findstr /r /c:" %%i " >nul && (
 				for /f "tokens=2 delims=>" %%H IN ("!%%G!") DO (
@@ -63,7 +63,7 @@ if %currentPartion% == _a (
 	)
 ) else (
 	if %currentPartion% == _b (
-		for /f "skip=1 delims=" %%G IN (temp.txt) DO (
+		for /f "skip=1 delims=" %%G IN (%C%\%backup_name%\temp.txt) DO (
 			for %%i in (boot_b init_boot_b vendor_boot_b vendor_kernel_boot_b super userdata efs efs_backup) do (
 				echo "%%G" | findstr /r /c:" %%i " >nul && (
 					for /f "tokens=2 delims=>" %%H IN ("!%%G!") DO (
@@ -85,6 +85,7 @@ echo 💾 Starting Android Partition Backup...
 echo ========================================
 echo.
 
+echo 📂¦ Backing up to %C%\%backup_name%
 
 if %currentPartion% == _a (
 	for %%i in (boot_a init_boot_a vendor_boot_a vendor_kernel_boot_a super userdata efs efs_backup) do (
